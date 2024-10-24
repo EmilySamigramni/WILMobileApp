@@ -17,12 +17,18 @@ class ApiService {
         Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept',
         },
         body: jsonEncode(student.toJson()),
       );
 
-      print('Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
+      print('Request URL: $baseUrl');
+      print('Request headers: ${response.request?.headers}');
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
       return response;
 
