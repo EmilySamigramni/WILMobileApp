@@ -187,6 +187,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
+
+                
                 _image == null
                     ? const Text('No image selected.')
                     : Image.file(_image!, height: 150, width: 150),

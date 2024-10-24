@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'student.dart'; 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -10,7 +12,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterPageState extends State<RegisterPage> {
-  final ApiService apiService = ApiService('https://faceon-api.calmwave-03f9df68.southafricanorth.azurecontainerapps.io/Student/Post');
+  final ApiService apiService = ApiService('https://faceon-api.calmwave-03f9df68.southafricanorth.azurecontainerapps.io/api/Student');
   final TextEditingController _studentIdController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -99,10 +101,10 @@ class RegisterPageState extends State<RegisterPage> {
     });
 
     int hardcodedCampusId = 1; // Example campus ID
-    bool hardcodedRegistrationComplete = true; // Example boolean value
+    bool hardcodedRegistrationComplete = false; // Example boolean value
 
     // Convert the string date to DateTime using the custom method
-    convertToDateTime(_dobController.text);
+    // convertToDateTime(_dobController.text);
 
     Student student = Student(
       studentId: _studentIdController.text,
@@ -121,7 +123,9 @@ class RegisterPageState extends State<RegisterPage> {
         _isLoading = false; // Stop loading
       });
 
-      if (response.statusCode == 200) {
+      print('url: ${apiService.baseUrl}');
+
+      if (response.statusCode == 201) {
         // Successfully registered
         debugPrint('Student registered successfully!');
         debugPrint('Response data: ${response.body}');

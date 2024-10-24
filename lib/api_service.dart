@@ -9,39 +9,33 @@ class ApiService {
 
   // Method to register a student
   Future<http.Response> registerStudent(Student student) async {
-    final url = Uri.parse('https://faceon-api.calmwave-03f9df68.southafricanorth.azurecontainerapps.io/Student/Post'); // Adjust the endpoint accordingly
+    try {
+      print('Attempting to register student at: $baseUrl');
+      print('Request Body: ${jsonEncode(student.toJson())}');
 
-    final Map<String, dynamic> body = {
-      'studentId': student.studentId,
-      'firstName': student.firstName,
-      'lastName': student.lastName,
-      'username': student.username,
-      'phoneNumber': student.phoneNumber,
-      'email': student.email,
-      'dateOfBirth': student.dateOfBirth,
-      'campusId': student.campusId,
-      'registrationComplete': student.registrationComplete,
-    };
+      final response = await http.post(
+        Uri.parse(baseUrl),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(student.toJson()),
+      );
 
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
 
-  print('JSON Body: ${jsonEncode(body)}');
+      return response;
 
-  // Send the HTTP POST request
-  final response = await http.post(
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode(body),
-  );
-
-    return response;
+    } catch (e) {
+      print('Error during registration: $e');
+      rethrow; // This will allow the error to be handled by the calling widget
+    }
   }
-  
 
   // Method to upload profile data
   Future<http.Response> uploadProfileData(Student student) async {
-    final url = Uri.https('$baseUrl/Student/Post'); // Adjust the endpoint accordingly
+    final url =
+        Uri.https('$baseUrl/Student/Post'); // Adjust the endpoint accordingly
     final response = await http.post(
       url,
       headers: {
